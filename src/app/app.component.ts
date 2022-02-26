@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Foo} from "./foo/types/foo";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-jest';
+
+  title = 'Angular Jest Test Project';
+  aFoo: Foo = {
+    id: 1,
+    name: 'Me'
+  }
 }
