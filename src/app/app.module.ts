@@ -13,10 +13,10 @@ import {FooModule} from "./foo/foo.module";
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MatSliderModule,
-    FooModule
+    AppRoutingModule,
+    FooModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
