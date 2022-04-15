@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooComponent } from './component/foo.component';
-import {MatGridListModule} from "@angular/material/grid-list";
-
+import { MatGridListModule } from '@angular/material/grid-list';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -12,9 +12,11 @@ import {MatGridListModule} from "@angular/material/grid-list";
   exports: [
     FooComponent
   ],
-    imports: [
-        CommonModule,
-        MatGridListModule
-    ]
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    MatGridListModule
+  ]
 })
-export class FooModule { }
+export class FooModule {
+}
