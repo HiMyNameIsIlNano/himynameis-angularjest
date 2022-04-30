@@ -20,7 +20,6 @@ export class FooComponent implements OnInit {
     this.service.getSomeData()
       .subscribe(fact => {
         this._randomCatFact = fact;
-        console.log(JSON.stringify(fact));
       });
   }
 
