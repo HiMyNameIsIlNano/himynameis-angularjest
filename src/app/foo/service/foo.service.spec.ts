@@ -15,10 +15,9 @@ describe('FooService', () => {
   const httpMock = {
     get: jest.fn().mockReturnValue(of(expectedFact)).mockName('get cat facts')
   };
-  const provide = (mock: any): any => mock;
 
   beforeEach(() => {
-    serviceUnderTest = new FooService(provide(httpMock));
+    serviceUnderTest = new FooService(httpMock as any);
   });
 
   test('should create', () => {
