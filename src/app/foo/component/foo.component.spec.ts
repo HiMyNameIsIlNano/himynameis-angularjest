@@ -6,7 +6,8 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatGridListHarness, MatGridTileHarness } from '@angular/material/grid-list/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { FooService } from '../service/foo.service';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import mocked = jest.mocked;
 
 describe('FooComponent', () => {
 
@@ -14,10 +15,17 @@ describe('FooComponent', () => {
   let fixture: ComponentFixture<FooComponent>;
   let loader: HarnessLoader;
 
-  jest.mock('@angular/common/http');
-  const serviceMock = {
-    getSomeData: jest.fn().mockReturnValue(new Observable())
+  let expectedFact: {
+    fact: string,
+    length: number
+  } = {
+    fact: 'A fact about cats',
+    length: 17
   };
+
+  const serviceMock = (mocked<Partial<FooService>>({
+    getSomeData: jest.fn().mockReturnValue(of(expectedFact))
+  }) as FooService);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,13 +44,23 @@ describe('FooComponent', () => {
     fixture.detectChanges();
   });
 
-  test('Grid List should be one', async () => {
-    const listHarnesses = await loader.getAllHarnesses(MatGridListHarness);
-    expect(listHarnesses.length).toEqual(1);
+  describe('HTML Mat Components', () => {
+    test('#should be one Grid List', async () => {
+      const listHarnesses = await loader.getAllHarnesses(MatGridListHarness);
+      expect(listHarnesses.length).toEqual(1);
+    });
+
+    test('#should be two Grid Titles', async () => {
+      const tileHarnesses = await loader.getAllHarnesses(MatGridTileHarness);
+      expect(tileHarnesses.length).toEqual(2);
+    });
   });
 
-  test('Grid Titles should be two', async () => {
-    const tileHarnesses = await loader.getAllHarnesses(MatGridTileHarness);
-    expect(tileHarnesses.length).toEqual(2);
+  describe('Mat UI contents', () => {
+    test(`#should be ${expectedFact.fact}`, async () => {
+      const tileHarnesses = await loader.getAllHarnesses(MatGridTileHarness);
+      expect(await tileHarnesses[0].hasHeader()).toBe(false);
+      expect(await (await tileHarnesses[0].host()).text()).toBe('A fact about cats');
+    });
   });
 });
