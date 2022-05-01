@@ -28,7 +28,7 @@ describe('FooService', () => {
   });
 
   test('should retrieve one fact over cats', (done) => {
-    const url = 'https://catfact.ninja/fact';
+    const url = serviceUnderTest.url;
 
     serviceUnderTest.getSomeData().subscribe(
       fact => {

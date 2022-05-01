@@ -11,11 +11,14 @@ export class FooService {
   constructor(private client: HttpClient) {
   }
 
+  get url(): string {
+    return FooService.API_URL;
+  }
+
   getSomeData() {
     return this.client.get<{
       fact: string,
       length: number
     }>(FooService.API_URL);
   }
-
 }
