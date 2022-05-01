@@ -1,5 +1,7 @@
 import { FooService } from './foo.service';
 import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import mocked = jest.mocked;
 
 
 describe('FooService', () => {
@@ -12,12 +14,13 @@ describe('FooService', () => {
     fact: 'Some fact on cats',
     length: 17
   };
-  const httpMock = {
+
+  const httpMock = (mocked<Partial<HttpClient>>({
     get: jest.fn().mockReturnValue(of(expectedFact)).mockName('get cat facts')
-  };
+  }) as HttpClient);
 
   beforeEach(() => {
-    serviceUnderTest = new FooService(httpMock as any);
+    serviceUnderTest = new FooService(httpMock);
   });
 
   test('should create', () => {
