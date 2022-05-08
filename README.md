@@ -1,21 +1,26 @@
 # AngularJest
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+This is just a small sample project to integrate the `Jest` testing framework in an `Angular` project. The goal is to
+understand
+how easier/faster it is to use jest instead of `Karma` for such a task and also how easier and more readable
+the `test classes` are
+in comparison to using `Jasmine`.
 
 ## How to get Jest to work with TS
 
-I followed the documentation under: https://github.com/thymikee/jest-preset-angular
+To get `Jest` up and running I simply followed the documentation under: https://github.com/thymikee/jest-preset-angular.
+Another thing I did was to remove `karma.conf.js` as it clashed with the `setup-jest.ts` file.
+
+## Start the application
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
+
+## Continuous testing
+
+Add the following entry:
+
+```json
+"continuos-test": "jest --watchAll"
+```
+
+to `package.json`.
