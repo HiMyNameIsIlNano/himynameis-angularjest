@@ -1,1 +1,1 @@
-export type Foo = {id: number, name: string}
+export type Foo = { id: number, name: string }

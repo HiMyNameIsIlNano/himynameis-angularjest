@@ -16,15 +16,15 @@ export class FooComponent implements OnInit {
   constructor(private service: FooService) {
   }
 
+  get fact() {
+    return this._randomCatFact.fact;
+  }
+
   ngOnInit(): void {
     this.service.getSomeData()
       .subscribe(fact => {
         this._randomCatFact = fact;
       });
-  }
-
-  get fact() {
-    return this._randomCatFact.fact;
   }
 
 }

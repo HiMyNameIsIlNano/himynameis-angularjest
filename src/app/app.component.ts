@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Foo} from "./foo/types/foo";
+import { Foo } from './foo/types/foo';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +12,5 @@ export class AppComponent {
   aFoo: Foo = {
     id: 1,
     name: 'Me'
-  }
+  };
 }
