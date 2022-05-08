@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { FooModule } from './foo/foo.module';
+import { CAT_FACTS_URL, InitModule } from './init/init.module';
 
 @NgModule({
   declarations: [
@@ -16,9 +17,13 @@ import { FooModule } from './foo/foo.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     FooModule,
-    MatSliderModule
+    MatSliderModule,
+    InitModule
   ],
-  providers: [],
+  providers: [{
+    provide: CAT_FACTS_URL,
+    useFactory: () => InitModule.API_URL
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

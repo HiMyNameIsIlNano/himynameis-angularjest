@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import {MatSliderModule} from "@angular/material/slider";
-import {FooModule} from "./foo/foo.module";
+import { MatSliderModule } from '@angular/material/slider';
+import { FooModule } from './foo/foo.module';
+import { CAT_FACTS_URL } from './init/init.module';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -14,6 +15,8 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent
+      ], providers: [
+        {provide: CAT_FACTS_URL, useValue: 'dummy'}
       ],
     }).compileComponents();
   });

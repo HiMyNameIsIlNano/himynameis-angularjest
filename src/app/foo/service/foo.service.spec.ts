@@ -20,7 +20,7 @@ describe('FooService', () => {
   }) as HttpClient);
 
   beforeEach(() => {
-    serviceUnderTest = new FooService(httpMock);
+    serviceUnderTest = new FooService('dummy', httpMock);
   });
 
   test('should create', () => {
@@ -28,11 +28,9 @@ describe('FooService', () => {
   });
 
   test('should retrieve one fact over cats', (done) => {
-    const url = serviceUnderTest.url;
-
     serviceUnderTest.getSomeData().subscribe(
       fact => {
-        expect(httpMock.get).toHaveBeenCalledWith(url);
+        expect(httpMock.get).toHaveBeenCalledWith('dummy');
         expect(fact.fact).toEqual('Some fact on cats');
         expect(fact.length).toEqual(17);
         done();
