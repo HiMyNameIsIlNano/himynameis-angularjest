@@ -4,12 +4,18 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map, Observable, tap } from 'rxjs';
 
-export const CAT_FACTS_URL = new InjectionToken<string>('apiUrl');
+export let CAT_FACTS_URL: InjectionToken<string>;
 
 function loadApiUrl(httpClient: HttpClient): () => Observable<any> {
   return () => httpClient.get<any>(environment.configUrl)
     .pipe(map(response => response['url']))
-    .pipe(tap(url => InitModule.API_URL = url));
+    .pipe(tap(url => {
+        CAT_FACTS_URL = new InjectionToken<string>('apiUrl', {
+          providedIn: 'root',
+          factory: () => url
+        });
+      }
+    ));
 }
 
 @NgModule({
@@ -26,7 +32,5 @@ function loadApiUrl(httpClient: HttpClient): () => Observable<any> {
   ]
 })
 export class InitModule {
-
-  static API_URL: string;
 
 }
