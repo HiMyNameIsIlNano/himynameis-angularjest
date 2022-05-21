@@ -9,7 +9,12 @@ in comparison to using `Jasmine`.
 ## How to get Jest to work with TS
 
 To get `Jest` up and running I simply followed the documentation under: https://github.com/thymikee/jest-preset-angular.
-Another thing I did was to remove `karma.conf.js` as it clashed with the `setup-jest.ts` file.
+Another thing I did was to remove `karma.conf.js` as it clashed with the `setup-jest.ts` file and uninstall the
+following dependencies:
+
+```shell
+npm uninstall @types/jasmine jasmine-core karma-chrome-launcher karma-coverage karma-jasmine karma-jasmine-html-reporter 
+```
 
 ## Start the application
 
@@ -20,7 +25,9 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 Add the following entry:
 
 ```json
-"continuos-test": "jest --watchAll"
+{
+  "continuos-test": "jest --watchAll"
+}
 ```
 
 to `package.json`.
