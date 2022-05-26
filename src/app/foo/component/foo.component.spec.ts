@@ -5,7 +5,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatGridListHarness, MatGridTileHarness } from '@angular/material/grid-list/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
-import { FooService } from '../service/foo.service';
+import { CatFactResponse, CatFactsService } from '../service/cat-facts.service';
 import { of } from 'rxjs';
 import mocked = jest.mocked;
 
@@ -15,23 +15,17 @@ describe('FooComponent', () => {
   let fixture: ComponentFixture<FooComponent>;
   let loader: HarnessLoader;
 
-  let expectedFact: {
-    fact: string,
-    length: number
-  } = {
-    fact: 'A fact about cats',
-    length: 17
-  };
+  let expectedFact: CatFactResponse = new CatFactResponse('A fact about cats', 17);
 
-  const serviceMock = (mocked<Partial<FooService>>({
-    getSomeData: jest.fn().mockReturnValue(of(expectedFact))
-  }) as FooService);
+  const serviceMock = (mocked<Partial<CatFactsService>>({
+    getSomeFactOnCats: jest.fn().mockReturnValue(of(expectedFact))
+  }) as CatFactsService);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatGridListModule],
       declarations: [FooComponent],
-      providers: [{provide: FooService, useValue: serviceMock}]
+      providers: [{provide: CatFactsService, useValue: serviceMock}]
     })
       .compileComponents();
   });
@@ -57,7 +51,7 @@ describe('FooComponent', () => {
   });
 
   describe('Mat UI contents', () => {
-    test(`#should be ${expectedFact.fact}`, async () => {
+    test(`#should be ${expectedFact.text}`, async () => {
       const tileHarnesses = await loader.getAllHarnesses(MatGridTileHarness);
       expect(await tileHarnesses[0].hasHeader()).toBe(false);
       expect(await (await tileHarnesses[0].host()).text()).toBe('A fact about cats');

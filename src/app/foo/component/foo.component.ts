@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FooService } from '../service/foo.service';
+import { CatFactResponse, CatFactsService } from '../service/cat-facts.service';
 
 @Component({
   selector: 'app-foo',
@@ -8,21 +8,18 @@ import { FooService } from '../service/foo.service';
 })
 export class FooComponent implements OnInit {
 
-  private _randomCatFact: {
-    fact: string,
-    length: number
-  } = {fact: '', length: 0};
+  private _randomCatFact: CatFactResponse = new CatFactResponse('', 0);
 
-  constructor(private service: FooService) {
+  constructor(private service: CatFactsService) {
   }
 
   get fact() {
-    return this._randomCatFact.fact;
+    return this._randomCatFact.text;
   }
 
   ngOnInit(): void {
-    this.service.getSomeData()
-      .subscribe(fact => {
+    this.service.getSomeFactOnCats()
+      .subscribe((fact: CatFactResponse) => {
         this._randomCatFact = fact;
       });
   }

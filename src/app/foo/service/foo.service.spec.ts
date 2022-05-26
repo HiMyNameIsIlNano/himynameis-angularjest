@@ -1,26 +1,20 @@
-import { FooService } from './foo.service';
+import { CatFactResponse, CatFactsService } from './cat-facts.service';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import mocked = jest.mocked;
 
 
 describe('FooService', () => {
-  let serviceUnderTest: FooService;
+  let serviceUnderTest: CatFactsService;
 
-  let expectedFact: {
-    fact: string,
-    length: number
-  } = {
-    fact: 'Some fact on cats',
-    length: 17
-  };
+  let expectedFact: CatFactResponse = new CatFactResponse('Some fact on cats', 17);
 
   const httpMock = (mocked<Partial<HttpClient>>({
     get: jest.fn().mockReturnValue(of(expectedFact)).mockName('get cat facts')
   }) as HttpClient);
 
   beforeEach(() => {
-    serviceUnderTest = new FooService('dummy', httpMock);
+    serviceUnderTest = new CatFactsService('dummy', httpMock);
   });
 
   test('should create', () => {
@@ -28,10 +22,10 @@ describe('FooService', () => {
   });
 
   test('should retrieve one fact over cats', (done) => {
-    serviceUnderTest.getSomeData().subscribe(
-      fact => {
+    serviceUnderTest.getSomeFactOnCats().subscribe(
+      (fact: CatFactResponse) => {
         expect(httpMock.get).toHaveBeenCalledWith('dummy');
-        expect(fact.fact).toEqual('Some fact on cats');
+        expect(fact.text).toEqual('Some fact on cats');
         expect(fact.length).toEqual(17);
         done();
       });
