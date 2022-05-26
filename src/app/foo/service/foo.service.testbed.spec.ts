@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { CatFactResponse, CatFactsService } from './cat-facts.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CAT_FACTS_URL } from '../../init/init.module';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 describe('FooService with TestBed', () => {
 
@@ -10,7 +10,6 @@ describe('FooService with TestBed', () => {
   let httpClient: HttpClient;
   let serviceUnderTest: CatFactsService;
   let dummyCatFact: CatFactResponse = new CatFactResponse('dunno', 5);
-  let expectedFact: CatFactResponse;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -33,19 +32,48 @@ describe('FooService with TestBed', () => {
   });
 
   test('should return dummy cat fact', () => {
-    let noError = undefined;
+    let expectedCatFact: CatFactResponse | undefined = undefined;
 
     serviceUnderTest.getSomeFactOnCats().subscribe({
-        next: (fact: CatFactResponse) => expectedFact = fact,
-        error: error => noError = error,
+        next: fact => expectedCatFact = fact,
+        error: () => fail('Error should have not been called'),
+        complete: () => fail('Complete should have not been called'),
       }
     );
 
     const request = mockController.expectOne('dummy');
     request.flush(dummyCatFact);
 
-    expect(expectedFact.text).toEqual('dunno');
-    expect(noError).toBeUndefined();
+    expect(expectedCatFact).not.toBeUndefined();
+    expect(expectedCatFact!.text).toEqual('dunno');
+
+    mockController.verify();
+  });
+
+  test('should return error', () => {
+    let returnedError: HttpErrorResponse | undefined = undefined;
+
+    const errorEvent = new ProgressEvent('Something went wrong');
+    const status = 500;
+    const statusText = 'Internal server error';
+
+    serviceUnderTest.getSomeFactOnCats().subscribe({
+        next: () => fail('Next should have not been called'),
+        error: error => returnedError = error,
+        complete: () => fail('Complete should have not been called')
+      }
+    );
+
+    const request = mockController.expectOne('dummy');
+    request.error(errorEvent, {
+      status: status,
+      statusText: statusText
+    });
+
+    expect(returnedError).not.toBeUndefined();
+    expect(returnedError!.error).toEqual(new ProgressEvent('Something went wrong'));
+    expect(returnedError!.status).toBe(500);
+    expect(returnedError!.statusText).toBe('Internal server error');
   });
 
 });
