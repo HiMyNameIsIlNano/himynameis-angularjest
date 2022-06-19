@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import mocked = jest.mocked;
 
 
-describe('FooService', () => {
+describe('CatFactsService', () => {
   let serviceUnderTest: CatFactsService;
 
   let expectedFact: CatFactResponse = new CatFactResponse('Some fact on cats', 17);
