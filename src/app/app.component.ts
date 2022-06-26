@@ -1,31 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RandomTextService } from './init/random-text.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   private titleText = 'Angular Jest Test Project';
 
-  private someRandomText = 'Dummy Value';
+  readonly observeTextGenerator: Observable<string>;
 
   constructor(private randomTextGenerator: RandomTextService) {
-  }
-
-  ngOnInit(): void {
-    this.randomTextGenerator.observeTextGenerator.subscribe(
-      text => this.someRandomText = text
-    );
+    this.observeTextGenerator = this.randomTextGenerator.observeTextGenerator;
   }
 
   get title(): string {
     return this.titleText;
-  }
-
-  get randomText(): string {
-    return this.someRandomText;
   }
 }

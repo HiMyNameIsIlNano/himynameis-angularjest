@@ -24,12 +24,16 @@ function loadApiUrl(httpClient: HttpClient): () => Observable<any> {
   imports: [
     CommonModule,
     HttpClientModule
-  ], providers: [{
-    provide: APP_INITIALIZER,
-    useFactory: loadApiUrl,
-    multi: true,
-    deps: [HttpClient]
-  }, RandomTextService]
+  ],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: loadApiUrl,
+      multi: true,
+      deps: [HttpClient]
+    },
+    RandomTextService
+  ]
 })
 export class InitModule {
 
