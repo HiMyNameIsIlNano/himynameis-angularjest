@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FooComponent } from './component/foo.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     HttpClientModule,
-    MatGridListModule
+    MatGridListModule,
+    MatCardModule
   ]
 })
 export class FooModule {

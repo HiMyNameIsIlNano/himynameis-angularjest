@@ -7,6 +7,8 @@ import { MatGridListHarness, MatGridTileHarness } from '@angular/material/grid-l
 import { HarnessLoader } from '@angular/cdk/testing';
 import { CatFactResponse, CatFactsService } from '../service/cat-facts.service';
 import { of } from 'rxjs';
+import { MatCardHarness } from '@angular/material/card/testing';
+import { MatCardModule } from '@angular/material/card';
 import mocked = jest.mocked;
 
 describe('FooComponent', () => {
@@ -15,7 +17,10 @@ describe('FooComponent', () => {
   let fixture: ComponentFixture<FooComponent>;
   let loader: HarnessLoader;
 
-  let expectedFact: CatFactResponse = new CatFactResponse('A fact about cats', 17);
+  let expectedFact: CatFactResponse = {
+    factLengthInLetters: 17,
+    factText: 'A fact about cats'
+  };
 
   const serviceMock = (mocked<Partial<CatFactsService>>({
     getSomeFactOnCats: jest.fn().mockReturnValue(of(expectedFact))
@@ -23,7 +28,7 @@ describe('FooComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatGridListModule],
+      imports: [MatGridListModule, MatCardModule],
       declarations: [FooComponent],
       providers: [{provide: CatFactsService, useValue: serviceMock}]
     })
@@ -44,17 +49,23 @@ describe('FooComponent', () => {
       expect(listHarnesses.length).toEqual(1);
     });
 
-    test('#should be two Grid Titles', async () => {
+    test('#should be one Grid Titles', async () => {
       const tileHarnesses = await loader.getAllHarnesses(MatGridTileHarness);
-      expect(tileHarnesses.length).toEqual(2);
+      expect(tileHarnesses.length).toEqual(1);
     });
   });
 
   describe('Mat UI contents', () => {
-    test(`#should be ${expectedFact.text}`, async () => {
+    test(`#should be ${expectedFact.factText}`, async () => {
       const tileHarnesses = await loader.getAllHarnesses(MatGridTileHarness);
+
+      expect(tileHarnesses.length).toBe(1);
       expect(await tileHarnesses[0].hasHeader()).toBe(false);
-      expect(await (await tileHarnesses[0].host()).text()).toBe('A fact about cats');
+
+      const matCardHarnesses = await loader.getAllHarnesses(MatCardHarness);
+      expect(matCardHarnesses.length).toBe(1);
+      expect(await matCardHarnesses[0].getTitleText()).toBe('Length: 17');
+      expect(await matCardHarnesses[0].getText()).toContain('A fact about cats');
     });
   });
 });

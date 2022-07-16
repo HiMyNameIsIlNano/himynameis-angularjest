@@ -9,7 +9,10 @@ describe('FooService with TestBed', () => {
   let mockController: HttpTestingController;
   let httpClient: HttpClient;
   let serviceUnderTest: CatFactsService;
-  let dummyCatFact: CatFactResponse = new CatFactResponse('dunno', 5);
+  let dummyCatFact: CatFactResponse = {
+    factText: 'dunno',
+    factLengthInLetters: 5
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -45,7 +48,7 @@ describe('FooService with TestBed', () => {
     request.flush(dummyCatFact);
 
     expect(expectedCatFact).not.toBeUndefined();
-    expect(expectedCatFact!.text).toEqual('dunno');
+    expect(expectedCatFact!.factText).toEqual('dunno');
 
     mockController.verify();
   });

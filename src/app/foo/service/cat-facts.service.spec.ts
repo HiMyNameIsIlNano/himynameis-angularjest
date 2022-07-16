@@ -7,7 +7,10 @@ import mocked = jest.mocked;
 describe('CatFactsService', () => {
   let serviceUnderTest: CatFactsService;
 
-  let expectedFact: CatFactResponse = new CatFactResponse('Some fact on cats', 17);
+  let expectedFact: CatFactResponse = {
+    factText: 'Some fact on cats',
+    factLengthInLetters: 17
+  };
 
   const httpMock = (mocked<Partial<HttpClient>>({
     get: jest.fn().mockReturnValue(of(expectedFact)).mockName('get cat facts')
@@ -25,8 +28,8 @@ describe('CatFactsService', () => {
     serviceUnderTest.getSomeFactOnCats().subscribe(
       (fact: CatFactResponse) => {
         expect(httpMock.get).toHaveBeenCalledWith('dummy');
-        expect(fact.text).toEqual('Some fact on cats');
-        expect(fact.length).toEqual(17);
+        expect(fact.factText).toEqual('Some fact on cats');
+        expect(fact.factLengthInLetters).toEqual(17);
         done();
       });
   });

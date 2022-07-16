@@ -2,18 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CAT_FACTS_URL } from '../../init/init.module';
 
-export class CatFactResponse {
+export interface CatFactResponse {
 
-  constructor(private factText: string, private factLengthInLetters: number) {
-  }
+  readonly factText: string;
+  readonly  factLengthInLetters: number;
 
-  get text() {
-    return this.factText;
-  }
-
-  get length() {
-    return this.factLengthInLetters;
-  }
 }
 
 @Injectable({
