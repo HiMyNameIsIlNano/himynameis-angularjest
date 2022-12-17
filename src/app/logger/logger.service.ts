@@ -3,15 +3,15 @@ export class LoggerService {
   constructor() {
   }
 
-  info(message: string) {
-    console.info(message);
+  info(message: string, data?: any) {
+    console.info(message, data);
   }
 
-  warn(message: string) {
-    console.warn(message);
+  warn(message: string, data?: any) {
+    console.warn(message, data);
   }
 
-  error(message: string) {
-    console.error(message);
+  error(message: string, data?: any) {
+    console.error(message, data);
   }
 }

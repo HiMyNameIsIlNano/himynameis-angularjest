@@ -8,6 +8,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { FooModule } from './foo/foo.module';
 import { InitModule } from './init/init.module';
 import { MenuComponent } from './menu/menu.component';
+import { NestedObservablesModule } from './nested-observables/nested-observables.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MenuComponent } from './menu/menu.component';
     AppRoutingModule,
     FooModule,
     MatSliderModule,
-    InitModule
+    InitModule,
+    NestedObservablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
