@@ -14,7 +14,7 @@ export class BazService {
   getSomeData() {
     return this.service.getMockedData()
       .pipe(
-        tap(value => this.logger.info('received: ' + value)),
+        tap(value => this.logger.info('received: ', value)),
         catchError(() => {
           debugger
           this.logger.error('something went wrong');

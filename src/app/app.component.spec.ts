@@ -5,6 +5,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { FooModule } from './foo/foo.module';
 import { CAT_FACTS_URL } from './init/init.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { LoggerModule } from './logger/logger.module';
 
 describe('AppComponent', () => {
 
@@ -16,6 +17,7 @@ describe('AppComponent', () => {
         RouterTestingModule,
         FooModule,
         MatSliderModule,
+        LoggerModule
       ],
       declarations: [
         AppComponent
