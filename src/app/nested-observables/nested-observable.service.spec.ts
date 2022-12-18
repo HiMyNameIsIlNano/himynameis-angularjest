@@ -1,22 +1,50 @@
 import { TestBed } from '@angular/core/testing';
 
 import { NestedObservableService } from './nested-observable.service';
-import { department, DepartmentService } from './department.service';
+import { department, departmentReference, DepartmentService } from './department.service';
 import { PersonService } from './person.service';
 import { BranchService } from './branch.service';
+import { of } from 'rxjs';
 
 describe('NestedObservableService', () => {
 
   let testSubject: NestedObservableService;
 
   beforeEach(() => {
+
+    const departmentServiceMock = {
+      findAllDepartments: () => of([{
+        departmentId: 1,
+        personInChargeId: 1,
+        branchId: 1
+      }] as departmentReference[]),
+      findNameById: id => of(`Department (${id})`)
+    } as DepartmentService;
+
+    const personServiceMock = {
+      findNameById: id => of(`Jerry, Man (${id})`)
+    } as PersonService;
+
+    const branchServiceMock = {
+      findNameById: id => of(`Branch (${id})`)
+    } as BranchService;
+
     TestBed.configureTestingModule({
       providers: [
-        DepartmentService,
-        PersonService,
-        BranchService
+        {
+          provide: DepartmentService,
+          useValue: departmentServiceMock
+        },
+        {
+          provide: PersonService,
+          useValue: personServiceMock
+        }, {
+          provide: BranchService,
+          useValue: branchServiceMock
+        },
       ]
     });
+
     testSubject = TestBed.inject(NestedObservableService);
   });
 
@@ -24,31 +52,15 @@ describe('NestedObservableService', () => {
     expect(testSubject).toBeTruthy();
   });
 
-  it('should contain the right info', (done) => {
+  it('should contain the right info', () => {
     let expectedResult = [
       {
-        'departmentId': 10,
-        'personInChargeId': 11,
-        'branchId': 12,
-        'departmentName': 'Department_10',
-        'personInChargeName': 'Dummy, John (11)',
-        'branchName': 'Branch_12'
-      },
-      {
-        'departmentId': 20,
-        'personInChargeId': 21,
-        'branchId': 22,
-        'departmentName': 'Department_20',
-        'personInChargeName': 'Dummy, John (21)',
-        'branchName': 'Branch_22'
-      },
-      {
-        'departmentId': 30,
-        'personInChargeId': 31,
-        'branchId': 32,
-        'departmentName': 'Department_30',
-        'personInChargeName': 'Dummy, John (31)',
-        'branchName': 'Branch_32'
+        'departmentId': 1,
+        'personInChargeId': 1,
+        'branchId': 1,
+        'departmentName': 'Department (1)',
+        'personInChargeName': 'Jerry, Man (1)',
+        'branchName': 'Branch (1)'
       }];
 
     let received: department[] = [];
@@ -57,11 +69,12 @@ describe('NestedObservableService', () => {
       {
         next: result => {
           received = result;
-          done();
         }
       }
     );
 
+    // This assertion at the end only works because the observable is resolved immediately.
+    // If I were to put a delay in one of the mocks we would have had a failing test
     expect(received).toStrictEqual(expectedResult);
   });
 

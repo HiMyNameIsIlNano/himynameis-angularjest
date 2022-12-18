@@ -3,7 +3,7 @@ import { delay, Observable, of } from 'rxjs';
 
 export type department = { departmentName?: string, personInChargeName?: string, branchName?: string };
 
-type departmentReference = department & { departmentId: number, personInChargeId: number, branchId: number };
+export type departmentReference = department & { departmentId: number, personInChargeId: number, branchId: number };
 
 const departmentMapper = (id: number) => {
   return 'Department_' + id;
