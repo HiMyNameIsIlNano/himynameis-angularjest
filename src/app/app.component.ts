@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RandomTextService } from './init/random-text.service';
-import { flatMap, map, mergeAll, mergeMap, Observable, toArray } from 'rxjs';
-import { DepartmentService } from './nested-observables/department.service';
+import { Observable } from 'rxjs';
 import { LoggerService } from './logger/logger.service';
+import { NestedObservableService } from './nested-observables/nested-observable.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ export class AppComponent {
   readonly observeTextGenerator: Observable<string>;
 
   constructor(private randomTextGenerator: RandomTextService,
-              private departmentService: DepartmentService,
+              private departmentService: NestedObservableService,
               private logger: LoggerService) {
     this.observeTextGenerator = this.randomTextGenerator.observeTextGenerator;
 

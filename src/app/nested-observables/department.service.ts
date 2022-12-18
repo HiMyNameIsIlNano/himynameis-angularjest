@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { delay, map, mergeAll, mergeMap, Observable, of, toArray } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 
-type department = { id: number, name?: string };
+export type department = { departmentName?: string, personInChargeName?: string, branchName?: string };
+
+type departmentReference = department & { departmentId: number, personInChargeId: number, branchId: number };
+
 const departmentMapper = (id: number) => {
   return 'Department_' + id;
 };
@@ -11,31 +14,28 @@ const departmentMapper = (id: number) => {
 })
 export class DepartmentService {
 
+  readonly findNameById: (id: number) => Observable<string>;
+
+  readonly findAllDepartments: () => Observable<departmentReference[]>;
+
   constructor() {
-  }
+    this.findNameById = (id: number) => of(departmentMapper(id))
+      .pipe(delay(2000));
 
-  findAllDepartmentIds(): Observable<number[]> {
-    return of([1, 2, 3]
-    ).pipe(delay(3000));
-  }
-
-  findNameById(id: number): Observable<string> {
-    return of(departmentMapper(id)).pipe(delay(2000));
-  }
-
-  findDepartmentsWithNames() {
-    return this.findAllDepartmentIds().pipe(
-      mergeAll(), // converts a higher-order Observable into single observables. In this case it takes the array of all department ids and re-emits them one by one
-      mergeMap(id => this.findNameById(id).pipe(
-          map(name => {
-            return {
-              id: id,
-              name: name
-            };
-          })
-        ) // emits departments updated with their name
-      ),
-      toArray() // take all the data emitted by the single observables and put them back into a single array
-    );
+    this.findAllDepartments = () => of([
+      {
+        departmentId: 10,
+        personInChargeId: 11,
+        branchId: 12
+      }, {
+        departmentId: 20,
+        personInChargeId: 21,
+        branchId: 22
+      }, {
+        departmentId: 30,
+        personInChargeId: 31,
+        branchId: 32
+      }
+    ]).pipe(delay(3000));
   }
 }
