@@ -52,7 +52,7 @@ describe('NestedObservableService', () => {
     expect(testSubject).toBeTruthy();
   });
 
-  it('should contain the right info', () => {
+  it('test with no delay should contain all resolved names from ids', () => {
     let expectedResult = [
       {
         'departmentId': 1,
